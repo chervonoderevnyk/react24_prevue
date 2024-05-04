@@ -1,17 +1,45 @@
-import React, {FC} from 'react';
-import './App.css';
+import React, {FC, useEffect, useState} from 'react';
 
-fetch('https://dummyjson.com/products')
-    .then(value => value.json())
-    .then(value => {
-      console.log(value);
-    })
+import './App.css';
+import IProduct from "./model/IProduct";
+import ProductComponent from "./components/product/ProductComponent";
 
 const App: FC = () => {
+
+    const [products, setProducts] = useState<IProduct[]>([])
+    
+    useEffect(() => {
+        fetch('https://dummyjson.com/products')
+            .then(value => value.json())
+            .then(value => {
+                // setProducts(value);
+                // console.log(value)
+                const productsArray = value.products;
+                setProducts(productsArray);
+                // console.log(value)
+                // console.log(value.products)
+            });
+
+        return () => {
+            console.log('end');
+        }
+    }, []);
+
   return (
-
-      <>hello</>
-
+      <>
+          {
+              products.map(
+                  ({ title, id, description, price},
+                   index) =>
+                  <ProductComponent
+                      key={index}
+                      id={id}
+                      title={title}
+                      description={description}
+                      price={price}
+                  />)
+          }
+      </>
   );
 }
 
