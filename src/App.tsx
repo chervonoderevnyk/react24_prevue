@@ -12,12 +12,8 @@ const App: FC = () => {
         fetch('https://dummyjson.com/products')
             .then(value => value.json())
             .then(value => {
-                // setProducts(value);
-                // console.log(value)
                 const productsArray = value.products;
                 setProducts(productsArray);
-                // console.log(value)
-                // console.log(value.products)
             });
 
         return () => {
